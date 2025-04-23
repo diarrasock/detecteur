@@ -1,0 +1,91 @@
+import gradio as gr
+
+def detect_fake_bill(image):
+    return "✅ Billet authentique"  # ou "❌ Faux billet"
+
+custom_css = """
+body {
+    background-color: #ffffff;
+    color: #000000;
+    font-family: 'Segoe UI', sans-serif;
+}
+h1, h2, h3, p, label {
+    color: #000000 !important;
+    text-align: center;
+}
+button {
+    background-color: #28a745 !important;
+    color: #ffffff !important;
+    border-radius: 10px;
+    font-size: 18px;
+    padding: 10px 20px;
+}
+.gr-image-preview, .gr-image-upload {
+    border: 2px solid #28a745 !important;
+    background-color: #f8f9fa !important;
+}
+footer {
+    text-align: center;
+    color: #000000;
+    margin-top: 30px;
+    font-size: 14px;
+    font-style: italic;
+}
+"""
+
+with gr.Blocks(css=custom_css) as demo:
+    with gr.Tabs():
+        with gr.Tab("🏠 Accueil"):
+            gr.HTML("""
+            <div style="text-align: center; padding: 60px;">
+                <h1 style="font-size: 52px; font-weight: bold;">
+                    🎯 EKSIL AK DIAM
+                </h1>
+                <h2 style="font-size: 36px; font-weight: bold; margin-top: 10px;">
+                    Projet TIPE – Détection de Faux Billets
+                </h2>
+                <p style="font-size: 26px; font-weight: bold;">
+                    Cet outil permet de détecter automatiquement les faux billets<br>
+                    à partir d’une simple image scannée.
+                </p>
+                <p style="font-size: 22px; max-width: 800px; margin: auto;">
+                    Téléversez l’image d’un billet ci-dessous pour savoir s’il est authentique.
+                </p>
+                <br>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?data=https://29e2c8587aa58d3f64.gradio.live/&size=200x200" alt="QR Code vers le site" style="margin-top:20px;" />
+                <p style="font-size: 18px;"><a href="https://29e2c8587aa58d3f64.gradio.live/" target="_blank" style="color: #28a745; text-decoration: none;">📲 Accéder au site depuis votre téléphone</a></p>
+            </div>
+            """)
+
+            image_input = gr.Image(type="pil", label="📷 Téléversez l’image du billet ici")
+            result = gr.Textbox(label="🧾 Résultat de la vérification")
+            scan_btn = gr.Button("🔍 Vérifier le billet")
+            scan_btn.click(fn=detect_fake_bill, inputs=image_input, outputs=result)
+
+        with gr.Tab("💵 Contrefaçon ? Pas avec nous !"):
+            gr.HTML("""
+            <div style="text-align: center; padding: 30px;">
+                <h2 style="font-size: 30px; font-weight: bold;">💵 Contrefaçon ? Pas avec nous !</h2>
+                <p style="font-size: 20px; max-width: 800px; margin: auto;">
+                    Ce projet a été réalisé dans le cadre d’un TIPE (Travail d’Initiative Personnelle Encadré).
+                    L’objectif est de concevoir un outil numérique capable de détecter automatiquement les faux billets
+                    à partir d’une analyse d’image. Face à la recrudescence des fraudes monétaires,
+                    une telle solution pourrait apporter une réponse technologique accessible et efficace.
+                </p>
+            </div>
+            """)
+
+        with gr.Tab("📬 Contact"):
+            gr.Markdown("""
+            ## 📬 Contact
+            📧 **etudianteimpb@gmail.com**  
+            📍 **Dakar, Sénégal 🇸🇳**
+            """)
+
+    gr.HTML("""
+    <footer>
+        Projet de fin d’études (TIPE) – Réalisé à Dakar 🇸🇳
+    </footer>
+    """)
+
+demo.launch(share=True)
